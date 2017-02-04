@@ -28,6 +28,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import repository.CustomerRepository;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CustomerRepositoryTests {

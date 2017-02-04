@@ -1,10 +1,6 @@
 package hello;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,23 +11,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
+
+import model.Games;
+import repository.GamesRepository;
+import service.impl.QueryBuilderServiceImpl;
 
 //import hello.QGames;
 
 @RestController
 public class GameController {
 		
+	private static final String GAME = "GAMES";
+	
 	@Autowired 
 	private GamesRepository gameRepository;
 	
+	@Autowired
+	private QueryBuilderServiceImpl queryService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/games",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Games> getAllGames(@RequestParam MultiValueMap<String, String> params) {	
-		BooleanExpression expression = createQuery(params);
+	public List<Games> getAllGames(@RequestParam MultiValueMap<String, String> queryParameters) {	
+		//BooleanExpression expression = ;
 		
-		return (List<Games>) gameRepository.findAll(expression);
+		return (List<Games>) gameRepository.findAll(queryService.createQuery(queryParameters, GAME));
 		//return  gameRepository.findAll();
 	}
 	
@@ -45,17 +47,5 @@ public class GameController {
 		return gameRepository.findOne(id);
 	}
 	
-	//Move to Service;
-	private BooleanExpression createQuery (MultiValueMap<String, String> params){
-		GamePredicateBuilder builder = new GamePredicateBuilder();
-		if(params.size() == 0){
-			return null;
-		}
-		for (Entry<String, List<String>> entry : params.entrySet()){
-			builder.with(entry.getKey(), entry.getValue().get(0));
-		}
-		return builder.build();
-
-	}
 	
 }

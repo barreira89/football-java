@@ -1,18 +1,15 @@
-package hello;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-public class GamePredicateBuilder {
+public abstract class AbstractPredicateBuilder implements PredicateBuilder {
 	
 	private List<SearchCriteria> params = new ArrayList<SearchCriteria>();
 	
-	public GamePredicateBuilder(){
-	}
-	
-	public GamePredicateBuilder with(String key, Object value){
+	public AbstractPredicateBuilder with(String key, Object value){
 		params.add(new SearchCriteria(key, value));
 		return null;
 	}
@@ -22,10 +19,10 @@ public class GamePredicateBuilder {
 			return null;
 		}
 		List<BooleanExpression> predicates = new ArrayList<BooleanExpression>();
-		GamePredicate predicate;
+		Predicate predicate;
 		
 		for (SearchCriteria param : params) {
-			predicate = new GamePredicate(param);
+			predicate = createPredicate(param);
 			BooleanExpression expr = predicate.getPredicate();
 			if (expr != null){
 				predicates.add(expr);
@@ -38,5 +35,7 @@ public class GamePredicateBuilder {
 		return result;
 		
 	}
-
+	
+	protected abstract Predicate createPredicate (SearchCriteria searchCriteria);
+	
 }

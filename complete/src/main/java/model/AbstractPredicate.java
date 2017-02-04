@@ -1,21 +1,20 @@
-package hello;
+package model;
 
-import hello.QGames;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.StringPath;
 
-public class GamePredicate {
+public abstract class AbstractPredicate implements Predicate{
 
-	private SearchCriteria criteria;
+private SearchCriteria criteria;
 	
-	GamePredicate(SearchCriteria criteria){
+	protected AbstractPredicate(SearchCriteria criteria){
 		this.criteria = criteria;
 	}
 	
 	public BooleanExpression getPredicate(){
-		PathBuilder<Games> entityPath = new PathBuilder<Games> (Games.class, "games");
+		PathBuilder entityPath = getPathBuilder();
 		
 		if(isNumeric(criteria.getValue().toString())){
 			int value = Integer.parseInt(criteria.getValue().toString());
@@ -29,6 +28,8 @@ public class GamePredicate {
 		
 		
 	}
+	
+	protected abstract PathBuilder getPathBuilder();
 	
 	private boolean isNumeric(String s) {  
 	    return s.matches("[-+]?\\d*\\.?\\d+");  
