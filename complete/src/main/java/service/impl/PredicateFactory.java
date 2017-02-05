@@ -1,15 +1,16 @@
 package service.impl;
 
 import model.PredicateBuilder;
-import model.Impl.GamePredicateBuilder;
-import model.Impl.LeaguesPredicateBuilder;
+import model.impl.GamePredicateBuilder;
+import model.impl.LeaguesPredicateBuilder;
+import model.Models;
 
 public class PredicateFactory {
 
-	public static PredicateBuilder getPredicate(String type) {
-		if (type == "GAMES"){
+	public static PredicateBuilder getPredicate(Models type) {
+		if (type == Models.GAMES){
 			return new GamePredicateBuilder();
-		} else if (type =="LEAGUES"){
+		} else if (type == Models.LEAGUES){
 			return new LeaguesPredicateBuilder();
 		} else {
 			return null;

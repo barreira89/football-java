@@ -12,4 +12,8 @@ public interface LeagueService {
 	public List<Leagues> findAllLeaguesByParams(MultiValueMap<String, String> queryParameters);
 	
 	public Leagues getLeagueById (String id);
+	
+	public Leagues addOrUpdateLeague (Leagues leagueToUpdate, String id);
+	
+	public Leagues createLeague (Leagues league);
 }

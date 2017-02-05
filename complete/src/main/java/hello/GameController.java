@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Games;
+import model.Models;
 import repository.GamesRepository;
 import service.impl.QueryBuilderServiceImpl;
 
@@ -21,8 +22,6 @@ import service.impl.QueryBuilderServiceImpl;
 @RestController
 public class GameController {
 		
-	private static final String GAME = "GAMES";
-	
 	@Autowired 
 	private GamesRepository gameRepository;
 	
@@ -33,7 +32,7 @@ public class GameController {
 	public List<Games> getAllGames(@RequestParam MultiValueMap<String, String> queryParameters) {	
 		//BooleanExpression expression = ;
 		
-		return (List<Games>) gameRepository.findAll(queryService.createQuery(queryParameters, GAME));
+		return (List<Games>) gameRepository.findAll(queryService.createQuery(queryParameters, Models.GAMES));
 		//return  gameRepository.findAll();
 	}
 	

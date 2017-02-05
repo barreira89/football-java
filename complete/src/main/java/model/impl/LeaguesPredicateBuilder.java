@@ -1,4 +1,4 @@
-package model.Impl;
+package model.impl;
 
 import model.AbstractPredicateBuilder;
 import model.Predicate;

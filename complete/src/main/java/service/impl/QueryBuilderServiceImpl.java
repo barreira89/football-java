@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
+import model.Models;
 import model.PredicateBuilder;
 import service.QueryBuilderService;
 
 @Service
 public class QueryBuilderServiceImpl implements QueryBuilderService {
 
-	public BooleanExpression createQuery (MultiValueMap<String, String> queryParameters, String type){
+	public BooleanExpression createQuery (MultiValueMap<String, String> queryParameters, Models type){
 		PredicateBuilder builder = getPredicateBuilder(type);
 		if(queryParameters.size() == 0){
 			return null;
@@ -25,7 +26,7 @@ public class QueryBuilderServiceImpl implements QueryBuilderService {
 
 	}
 	
-	private PredicateBuilder getPredicateBuilder(String type){
+	private PredicateBuilder getPredicateBuilder(Models type){
 		return PredicateFactory.getPredicate(type);
 	}
 	

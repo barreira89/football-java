@@ -1,4 +1,4 @@
-package model.Impl;
+package model.impl;
 
 import com.querydsl.core.types.dsl.PathBuilder;
 

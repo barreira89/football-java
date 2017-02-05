@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import model.Leagues;
+import model.Models;
 import repository.LeaguesRepository;
 import service.LeagueService;
 
 @Service
 public class LeagueServiceImpl implements LeagueService{
-	
-	private static final String LEAGUES = "LEAGUES";
-	
+		
 	@Autowired
 	LeaguesRepository leaguesRepository;
 	
@@ -28,7 +27,7 @@ public class LeagueServiceImpl implements LeagueService{
 
 	@Override
 	public List<Leagues> findAllLeaguesByParams(MultiValueMap<String, String> queryParameters) {
-		return (List<Leagues>) leaguesRepository.findAll(queryService.createQuery(queryParameters, LEAGUES));
+		return (List<Leagues>) leaguesRepository.findAll(queryService.createQuery(queryParameters, Models.LEAGUES));
 	}
 
 	@Override
@@ -36,4 +35,33 @@ public class LeagueServiceImpl implements LeagueService{
 		return leaguesRepository.findById(id);
 	}
 
+	@Override
+	public Leagues addOrUpdateLeague (Leagues incomingLeague, String incomingId) {
+		Leagues leagueToSave;
+		Leagues exsitingLeague = leaguesRepository.findOne(incomingId);
+		
+		if(exsitingLeague == null){
+			leagueToSave = incomingLeague;
+		} else {
+			leagueToSave = exsitingLeague;
+			leagueToSave.setName(incomingLeague.name);
+			leagueToSave.setUserIds(incomingLeague.userIds);
+			leagueToSave.setUsers(incomingLeague.users);
+		}
+		return leaguesRepository.save(leagueToSave);
+	}
+
+	public Leagues createLeague (Leagues leagueToCreate){
+		return leaguesRepository.save(leagueToCreate);
+	}
 }
+//Leagues currentLeague = leaguesRepository.findById(id);
+//if (currentLeague == null){
+//	currentLeague = league;
+//} else {
+//	currentLeague.setUserIds(league.userIds);
+//	currentLeague.setName(league.name);
+//	currentLeague.setUsers(league.users);		
+//}
+//
+//String currentId = leaguesRepository.save(currentLeague).id;

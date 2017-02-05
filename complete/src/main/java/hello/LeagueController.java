@@ -20,15 +20,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import model.Leagues;
 import repository.LeaguesRepository;
 import service.impl.LeagueServiceImpl;
-import service.impl.QueryBuilderServiceImpl;
 
 //import hello.QGames;
 
 @RestController
 public class LeagueController {
 		
-	private static final String LEAGUES = "LEAGUES";
-	
 	//Refactor: Move All League Repo Dependencies to Service
 	
 	@Autowired 
@@ -36,27 +33,20 @@ public class LeagueController {
 	
 	@Autowired
 	private LeagueServiceImpl leagueService;
-	
-	@Autowired
-	private QueryBuilderServiceImpl queryService;
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/leagues",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Leagues> getAllLeagues(@RequestParam MultiValueMap<String, String> queryParameters) {	
 		
-		return (List<Leagues>) leaguesRepository.findAll(queryService.createQuery(queryParameters, LEAGUES));
-		//return  gameRepository.findAll();
+	@RequestMapping(method = RequestMethod.GET, value = "/leagues",produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Leagues> getAllLeagues(@RequestParam MultiValueMap<String, String> queryParameters) {		
+		return leagueService.findAllLeaguesByParams(queryParameters);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/leagues/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public Leagues getLeagueById(@PathVariable("id") String id) {	
-		
 		return leagueService.getLeagueById(id);
-		//return  gameRepository.findAll();
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/leagues")
 	public ResponseEntity<String> createLeague(@RequestBody Leagues league) {
-		String createdId = leaguesRepository.save(league).id;
+		String createdId = leagueService.createLeague(league).id;
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setLocation(locationBuilder(createdId));
@@ -67,19 +57,11 @@ public class LeagueController {
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/leagues/{id}")
 	public ResponseEntity<String> updateLeague(@PathVariable String id, @RequestBody Leagues league) {
-		Leagues currentLeague = leaguesRepository.findById(id);
-		if (currentLeague == null){
-			currentLeague = league;
-		} else {
-			currentLeague.setUserIds(league.userIds);
-			currentLeague.setName(league.name);
-			currentLeague.setUsers(league.users);		
-		}
 		
-		String currentId = leaguesRepository.save(currentLeague).id;
+		Leagues resultingLeague = leagueService.addOrUpdateLeague(league, id);
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(locationBuilder(currentId));
+		responseHeaders.setLocation(locationBuilder(resultingLeague.id));
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 
@@ -95,10 +77,12 @@ public class LeagueController {
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 
 	}
-//	
+	
+	//Refactor to Rest Controller Utils
 	private URI locationBuilder(String id) {
 		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest().path("/{id}")
+				.fromCurrentContextPath()
+				.pathSegment("leagues/{id}")
 				.buildAndExpand(id).toUri();
 		return location;
 	}

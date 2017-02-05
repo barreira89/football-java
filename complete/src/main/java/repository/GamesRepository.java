@@ -14,8 +14,5 @@ public interface GamesRepository extends MongoRepository<Games, String>, QueryDs
 
 	List<Games> findBySeason(int season);
 	
-	@Query("{ 'season': ?0, 'home': ?1}")
-	List<Games> findByQueryParams(int season, String home);
-	
 	List<Games> findByHomeOrVisitorOrSeason (String home, String visitor, int season);
 }
