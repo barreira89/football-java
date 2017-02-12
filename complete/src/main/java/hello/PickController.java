@@ -4,9 +4,13 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import model.Picks;
-import model.PicksExpand;
+import model.PicksDTO;
 import service.impl.PicksServiceImpl;
 
 //import hello.QGames;
@@ -26,7 +30,7 @@ public class PickController {
 	private PicksServiceImpl pickService;
 		
 	@RequestMapping(method = RequestMethod.GET, value = "/picks",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Picks> getAllLeagues(@RequestParam MultiValueMap<String, String> queryParameters) {		
+	public List<Picks> getAllPicksByCriteria(@RequestParam MultiValueMap<String, String> queryParameters) {		
 		return pickService.findAllPicksByParams(queryParameters);
 	}
 	
@@ -35,33 +39,48 @@ public class PickController {
 		return pickService.getPicksById(id);
 	}
 	
+	//TODO: Fix resource end points to use expand
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/picks/with",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<PicksExpand> getPicksWithGames() {	
-		return pickService.findAllPicksWithGames();
+	public List<PicksDTO> getPicksWithGames(@RequestParam String username) {	// @RequestParam String expand
+		return pickService.findAllPicksWithGames(username);
 	}
 	
-//	@RequestMapping(method = RequestMethod.POST, value = "/leagues")
-//	public ResponseEntity<String> createLeague(@RequestBody Leagues league) {
-//		String createdId = leagueService.createLeague(league).id;
-//		
-//		HttpHeaders responseHeaders = new HttpHeaders();
-//		responseHeaders.setLocation(locationBuilder(createdId));
-//		
-//		return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
-//
-//	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/picks")
+	public ResponseEntity<String> createPick(@RequestBody Picks pick) {
+		String createdId = pickService.addOrUpdatePick(pick, null).getId();
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setLocation(locationBuilder(createdId));
+		
+		return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/picks/{id}")
+	public ResponseEntity<String> updatePick(@PathVariable String id, @RequestBody Picks pick) {
+		
+		Picks resultingPick = pickService.addOrUpdatePick(pick, id);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setLocation(locationBuilder(resultingPick.getId()));
+		
+		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
+
+	}
 //	
-//	@RequestMapping(method = RequestMethod.PUT, value = "/leagues/{id}")
-//	public ResponseEntity<String> updateLeague(@PathVariable String id, @RequestBody Leagues league) {
-//		
-//		Leagues resultingLeague = leagueService.addOrUpdateLeague(league, id);
-//		
-//		HttpHeaders responseHeaders = new HttpHeaders();
-//		responseHeaders.setLocation(locationBuilder(resultingLeague.id));
-//		
-//		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
-//
-//	}
+	@RequestMapping(method = RequestMethod.PUT, value = "/picks", params = {"username","week"})
+	public ResponseEntity<String> updateListOfPicks(@RequestBody List<Picks> picks) {
+		
+		pickService.updateListOfPicks(picks);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		
+		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
+
+	}
 //	
 //	@RequestMapping(method = RequestMethod.DELETE, value = "/leagues/{id}")
 //	public ResponseEntity<String> deleteLeague(@PathVariable String id, @RequestBody Leagues league) {

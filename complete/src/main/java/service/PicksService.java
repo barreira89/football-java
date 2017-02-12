@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.util.MultiValueMap;
 
 import model.Picks;
-import model.PicksExpand;
+import model.PicksDTO;
 
 public interface PicksService {
 
@@ -14,10 +14,10 @@ public interface PicksService {
 	
 	public Picks getPicksById (String id);
 	
-	public Picks addOrUpdatePick (Picks leagueToUpdate, String id);
+	public Picks addOrUpdatePick (Picks pick, String id);
 	
-//	public Picks createLeague (Picks league);
+	public List<PicksDTO> findAllPicksWithGames(String username);
 	
-	public List<PicksExpand> findAllPicksWithGames();
+	public void updateListOfPicks(List<Picks> inputPicks);
 	
 }

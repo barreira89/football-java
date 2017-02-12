@@ -1,7 +1,6 @@
 package model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.querydsl.core.annotations.QueryEntity;
@@ -62,7 +61,6 @@ public class Picks {
 	String id;
 	String username;
 	int week;
-	@DBRef
 	String game;
 	double season;
 	String winner;

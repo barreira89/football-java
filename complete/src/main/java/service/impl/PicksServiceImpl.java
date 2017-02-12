@@ -1,17 +1,14 @@
 package service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-import model.Games;
 import model.Models;
 import model.Picks;
-import model.PicksExpand;
-import repository.GamesRepository;
+import model.PicksDTO;
 import repository.PicksRepository;
 import service.PicksService;
 
@@ -20,9 +17,6 @@ public class PicksServiceImpl implements PicksService {
 
 	@Autowired
 	PicksRepository picksRepository;
-	
-	@Autowired
-	GamesRepository gamesRepository;
 	
 	@Autowired
 	QueryBuilderServiceImpl queryService;
@@ -39,33 +33,25 @@ public class PicksServiceImpl implements PicksService {
 
 	@Override
 	public Picks getPicksById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return picksRepository.findOne(id);
 	}
 
 	@Override
-	public Picks addOrUpdatePick(Picks leagueToUpdate, String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Picks addOrUpdatePick(Picks pickToSave, String id) {
+		return picksRepository.save(pickToSave);
 	}
 
-//	@Override
-//	public Picks createLeague(Picks league) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	//TODO: Refactor to be more efficient.
 	@Override
-	public List<PicksExpand> findAllPicksWithGames() {
-		// TODO Auto-generated method stub
-		List<Picks> foundPicks = picksRepository.findAll();
-		List<PicksExpand> g = new ArrayList<PicksExpand>();
-		
-		foundPicks.stream().forEach(p -> g.add(
-					new PicksExpand(p.getId(), p.getUsername(), p.getWeek(), gamesRepository.findOne(p.getGame()), p.getSeason(), p.getWinner())));
-		
-		System.out.println(g.size());
-		return g;
+	public List<PicksDTO> findAllPicksWithGames(String username) {
+		return picksRepository.findPicksByUsernameWithGameDetails(username);
+	}
+
+	@Override
+	public void updateListOfPicks(List<Picks> inputPicks) {
+		inputPicks.forEach(
+				p -> {
+					picksRepository.save(p);
+				});
 	}
 
 }
