@@ -33,7 +33,7 @@ public class PicksRepositoryImpl implements PicksRepositoryCustom {
 	}
 	
 	private LookupOperation getLookUpOperation(){
-		return Aggregation.lookup("games", "game", "_id", "gameDetails");
+		return Aggregation.lookup("games", "game", "_id", "gameDetailList");
 	}
 	
 	private MatchOperation getMatchOperation(String username){

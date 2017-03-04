@@ -5,7 +5,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.stevebarreira.football.model.Leagues;
 
-public interface LeagueService {
+public interface LeaguesService {
 
 	public List<Leagues> findAllLeagues();
 	
@@ -16,4 +16,6 @@ public interface LeagueService {
 	public Leagues addOrUpdateLeague (Leagues leagueToUpdate, String id);
 	
 	public Leagues createLeague (Leagues league);
+	
+	public List<Leagues> findLeaguesByUserName (String username);
 }

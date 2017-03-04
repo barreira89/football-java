@@ -27,7 +27,7 @@ gameServices.getGamesByWeek = function (weekNumber, season) {
   var seasonQuery = addSeasonQuery(season);
 	return $http({
 			method: 'GET',
-			url: APIPREFIX + '/games' + '?weeknumber=' + parseInt(weekNumber) + seasonQuery
+			url: APIPREFIX + '/games' + '?weekNumber=' + parseInt(weekNumber) + seasonQuery
 	})
 }
 
@@ -41,7 +41,7 @@ gameServices.getGamesByTeam = function (team){
 gameServices.updateGamesByWeek = function (week, gameData) {
 	return $http({
 		method : 'PUT',
-		url : APIPREFIX + '/games' + '?weeknumber=' + parseInt(week),
+		url : APIPREFIX + '/games' + '?weekNumber=' + parseInt(week),
 		data : gameData
 	})
 }

@@ -2,17 +2,27 @@ package com.stevebarreira.football.model;
 
 import java.util.List;
 
-public class PicksDTO extends Picks{
+public class PicksDTO extends Picks {
 
-	List<Games> gameDetails;
+	private Games gameDetails;
+	
+	private List<Games> gameDetailList;
+	
+	public void setGameDetailList(List<Games> gameDetailList) {
+		this.gameDetailList = gameDetailList;
+	}
 
 	PicksDTO(){};
 	
-	public List<Games> getGameDetails() {
-		return gameDetails;
+	public Games getGameDetails() {
+		if(gameDetailList.size() > 0){
+			return gameDetailList.get(0);
+		} else {
+			return null;
+		}
 	}
 
-	public void setGameDetails(List<Games> gameDetails) {
+	public void setGameDetails(Games gameDetails) {
 		this.gameDetails = gameDetails;
 	}
 

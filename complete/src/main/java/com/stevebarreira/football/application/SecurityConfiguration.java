@@ -14,14 +14,14 @@ import com.stevebarreira.football.service.impl.AccountsAuthService;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
 	
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, AccountsAuthService accountsService) throws Exception {
-       //auth.userDetailsService(accountsService);
-    	auth
-    		.inMemoryAuthentication()
-    			.withUser("username").password("password").roles("USER_ROLE");
-    }
-    
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth, AccountsAuthService accountsService) throws Exception {
+//       //auth.userDetailsService(accountsService);
+//    	auth
+//    		.inMemoryAuthentication()
+//    			.withUser("username").password("password").roles("USER_ROLE");
+//    }
+//    
     @Override
     public void configure(WebSecurity web) throws Exception {
     	web.ignoring()
@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter  {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/index").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/api/**").permitAll() //Need to remove
                 .anyRequest().authenticated()
                 .and()

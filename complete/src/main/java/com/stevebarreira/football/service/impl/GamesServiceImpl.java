@@ -41,4 +41,9 @@ public class GamesServiceImpl implements GamesService {
 		return gamesRepository.findOne(id);
 	}
 
+	@Override
+	public Games addOrUpdateGame(Games game) {
+		return gamesRepository.save(game);
+	}
+
 }

@@ -15,4 +15,6 @@ public interface GamesService {
 	Games createGame(Games game);
 	
 	Games findById(String id);
+	
+	Games addOrUpdateGame(Games game);
 }

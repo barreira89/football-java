@@ -9,11 +9,11 @@ import org.springframework.util.MultiValueMap;
 import com.stevebarreira.football.model.Leagues;
 import com.stevebarreira.football.model.Models;
 import com.stevebarreira.football.repository.LeaguesRepository;
-import com.stevebarreira.football.service.LeagueService;
+import com.stevebarreira.football.service.LeaguesService;
 import com.stevebarreira.football.service.QueryBuilderService;
 
 @Service
-public class LeagueServiceImpl implements LeagueService{
+public class LeagueServiceImpl implements LeaguesService {
 		
 	@Autowired
 	LeaguesRepository leaguesRepository;
@@ -55,14 +55,9 @@ public class LeagueServiceImpl implements LeagueService{
 	public Leagues createLeague (Leagues leagueToCreate){
 		return leaguesRepository.save(leagueToCreate);
 	}
+
+	@Override
+	public List<Leagues> findLeaguesByUserName(String username) {
+		return leaguesRepository.findLeaguesByUserName(username);
+	}
 }
-//Leagues currentLeague = leaguesRepository.findById(id);
-//if (currentLeague == null){
-//	currentLeague = league;
-//} else {
-//	currentLeague.setUserIds(league.userIds);
-//	currentLeague.setName(league.name);
-//	currentLeague.setUsers(league.users);		
-//}
-//
-//String currentId = leaguesRepository.save(currentLeague).id;
