@@ -5,18 +5,18 @@
 			<div class="row">
 				<div class="col-md-3 hidden-xs">
 				<select name="winnerSelect" ng-model="pick.winner">
-						<option value="home"> {{pick.game.home}} </option>
-						<option value="visitor"> {{pick.game.visitor}} </option>
+						<option value="home"> {{pick.gameDetails.home}} </option>
+						<option value="visitor"> {{pick.gameDetails.visitor}} </option>
 				</select>
 				</div>
 				<div class="col-md-3 col-xs-9">
-					{{pick.game.visitor}} @ {{pick.game.home}}
+					{{pick.gameDetails.visitor}} @ {{pick.gameDetails.home}}
 				</div>
 				<div class="col-md-3 col-xs-2">
 					 {{pick.userResult().gameResult}}
 				</div>
 				<div class="col-md-3 hidden-xs">
-					<button ng-click="updatePick(pick._id, pick)" class="btn btn-default"> Update </button>
+					<button ng-click="updatePick(pick.id, pick)" class="btn btn-default"> Update </button>
 				</div>
 			</div>
 		</div>

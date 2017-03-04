@@ -15,24 +15,28 @@ getLogoList().success(function (data){
 //get logo location by team name
 
 //check to see if logo list is loaded -- return
-logos.getLogoByTeamname = function(teamName){
-  if(!logoLookUp){
-    getLogoList().success(function(data){
-      logoLookUp = createLogoLookUp(data);
-      return logoLookUp[teamName];
-    })
-  } else {
-    return logoLookUp[teamName];
-  }
+logos.getLogoByTeamname = function(teamName) {
+    if (!logoLookUp) {
+        getLogoList().success(function(data) {
+            logoLookUp = createLogoLookUp(data);
+            return logoLookUp[teamName];
+        })
+    } else {
+        return logoLookUp[teamName];
+    }
 }
 
 function createLogoLookUp(logoArray) {
-    var logoLookUp = {}
-    logoArray.map(function(value) {
-        logoLookUp[value.team] = value.logo;
-    })
-    return logoLookUp;
+    return logoArray.reduce((prev, current) => {
+        prev[current.team] = removePublic(current.logo);
+        return prev;
+    }, {});
 }
 
  return logos;
 }]);
+
+//Hack
+function removePublic (url) {
+  return url.replace('public/', '')
+}

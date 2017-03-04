@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +34,11 @@ public class UserController {
 	public String createUser(@RequestBody Accounts account) {	
 		 accountService.saveAccount(account);
 		 return "index";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/users/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
+	public Accounts getAccountById(@PathVariable("id") String userId) {		
+		return accountService.findAccountById(userId);
 	}
 //	
 //	//TODO: Fix resource end points to use expand

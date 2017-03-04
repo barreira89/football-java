@@ -76,6 +76,7 @@ public class Accounts implements UserDetails {
 	private String salt;
 	@JsonIgnore
 	private String hash;
+	@JsonIgnore
 	private String password;
 	
 	Accounts(){}

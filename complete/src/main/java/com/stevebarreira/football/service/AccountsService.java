@@ -13,4 +13,6 @@ public interface AccountsService {
 	List<Accounts> findAllAccountsByParams (MultiValueMap<String, String> queryParameters);
 
 	Accounts saveAccount(Accounts accounts);
+	
+	Accounts findAccountById(String id);
 }

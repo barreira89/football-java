@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stevebarreira.football.model.Games;
 import com.stevebarreira.football.model.Models;
+import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.repository.GamesRepository;
 import com.stevebarreira.football.service.GamesService;
 import com.stevebarreira.football.service.QueryBuilderService;
@@ -47,6 +51,18 @@ public class GameController {
 	@RequestMapping("/games/weeklists")
 	public List<String> getGameList(){
 		return buildWeekList();
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/games/{id}")
+	public ResponseEntity<String> updatePick(@PathVariable String id, @RequestBody Games game) {
+		
+		Games resultingGame = gamesService.addOrUpdateGame(game);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setLocation(RequestUtils.locationBuilder(resultingGame.getId(), "games"));
+		
+		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
+
 	}
 	
 	private List<String> buildWeekList(){

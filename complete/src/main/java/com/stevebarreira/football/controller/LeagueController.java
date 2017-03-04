@@ -39,6 +39,11 @@ public class LeagueController {
 		return leagueService.findAllLeaguesByParams(queryParameters);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/leagues", params = {"username"})
+	public List<Leagues> getLeaguesByUserName(@RequestParam String username){
+		return leagueService.findLeaguesByUserName(username);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/leagues/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public Leagues getLeagueById(@PathVariable("id") String id) {	
 		return leagueService.getLeagueById(id);
@@ -61,7 +66,7 @@ public class LeagueController {
 		Leagues resultingLeague = leagueService.addOrUpdateLeague(league, id);
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(locationBuilder(resultingLeague.id));
+		responseHeaders.setLocation(RequestUtils.locationBuilder(resultingLeague.getId(), "leagues"));
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 

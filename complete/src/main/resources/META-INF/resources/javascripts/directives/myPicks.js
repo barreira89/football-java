@@ -11,5 +11,5 @@ app.directive('myPicks', ['users', 'picks', function(users, picks){
 				});
 			}
 		},
-		templateUrl: 'public/javascripts/directives/myPicks.html'
+		templateUrl: '/javascripts/directives/myPicks.html'
 }}]);

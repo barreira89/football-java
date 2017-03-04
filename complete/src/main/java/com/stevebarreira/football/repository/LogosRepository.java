@@ -6,15 +6,11 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.stevebarreira.football.model.Games;
-import com.stevebarreira.football.model.Leagues;
+import com.stevebarreira.football.model.Logos;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 @Repository
-public interface LeaguesRepository extends MongoRepository<Leagues, String>, QueryDslPredicateExecutor<Leagues> {
-	
-	Leagues findById (String id);
-	
-	@Query(value = "{'users': '?0' }")
-	List<Leagues> findLeaguesByUserName(String username);
+public interface LogosRepository extends MongoRepository<Logos, String> {
+
 }

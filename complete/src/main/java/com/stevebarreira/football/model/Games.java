@@ -12,7 +12,87 @@ public class Games {
     @Id
     public String id;
     public String home;
-    public String visitor;
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getHome() {
+		return home;
+	}
+
+	public void setHome(String home) {
+		this.home = home;
+	}
+
+	public String getVisitor() {
+		return visitor;
+	}
+
+	public void setVisitor(String visitor) {
+		this.visitor = visitor;
+	}
+
+	public int getWeekNumber() {
+		return weekNumber;
+	}
+
+	public void setWeekNumber(int weekNumber) {
+		this.weekNumber = weekNumber;
+	}
+
+	public int getSeason() {
+		return season;
+	}
+
+	public void setSeason(int season) {
+		this.season = season;
+	}
+
+	public String getWinner() {
+		return winner;
+	}
+
+	public void setWinner(String winner) {
+		this.winner = winner;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public int getHomescore() {
+		return homescore;
+	}
+
+	public void setHomescore(int homescore) {
+		this.homescore = homescore;
+	}
+
+	public int getVisitscore() {
+		return visitscore;
+	}
+
+	public void setVisitscore(int visitscore) {
+		this.visitscore = visitscore;
+	}
+
+	public String visitor;
     public int weekNumber;
     public int season;
     public String winner;

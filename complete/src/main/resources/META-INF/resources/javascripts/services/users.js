@@ -1,4 +1,4 @@
-app.factory('users', ['$http', '$q', function($http, $q) {
+app.factory('users', ['$http', '$q', 'picks', 'leagues', function($http, $q, picks, leagues) {
     var userservices = {};
     const APIPREFIX = '/api';
 
@@ -16,18 +16,18 @@ app.factory('users', ['$http', '$q', function($http, $q) {
         })
     }
 
-    userservices.updateUser = function(userId, userData){
-      return $http({
-        method: 'PUT',
-        url: APIPREFIX + '/api/users/' + userId,
-        data: userData
-      })
+    userservices.updateUser = function(userId, userData) {
+        return $http({
+            method: 'PUT',
+            url: APIPREFIX + '/users/' + userId,
+            data: userData
+        })
     }
 
     userservices.getUserPicks = function(username, season) {
         var seasonQuery = '';
-        if(season){
-          seasonQuery = '&season=' + season;
+        if (season) {
+            seasonQuery = '&season=' + season;
         }
 
         return $http({
@@ -36,22 +36,58 @@ app.factory('users', ['$http', '$q', function($http, $q) {
         })
     }
 
-    userservices.getUserPicksByWeek = function(userdata, week) {
-        var userPicks = userdata.picks;
-        var weekPicks = {};
-        userPicks.forEach(function(pick) {
-            if (pick.week == week.weekNumber) {
-                weekPicks = pick.picks
-            }
-        })
-        return weekPicks;
-    }
-
     userservices.getUserModel = function(userId) {
         return $http({
             method: 'GET',
-            url: APIPREFIX + '/users/' + userId + '/picks'
+            url: APIPREFIX + '/users/' + userId
         })
+    }
+
+    userservices.getUserModelNew = function(userId) {
+        var deferred = $q.defer();
+        var userModel = {}
+
+        $http({
+                method: 'GET',
+                url: APIPREFIX + '/users/' + userId
+            })
+            .success(function(data) {
+                userModel.userDetails = data;
+                $http({
+                        method: 'GET',
+                        url: APIPREFIX + '/picks/with?username=' + data.username
+                    })
+                    .success(function(pickData) {
+                        userModel.userPicks = pickData;
+                        userModel.userPicksByWeek = picks.groupPicksByWeek(pickData);
+
+                        leagues.getLeaguesByUsername(data.username)
+                          .success(function(leagues){
+                              userModel.userLeagues = leagues;
+                              deferred.resolve(userModel);
+                          })
+                          //League Error
+                          .error(function(error){
+                            deferred.reject({
+                                message: "Failed"
+                            });
+                          })
+                    })
+                    //Picks Error
+                    .error(function(error) {
+                        deferred.reject({
+                            message: "Failed"
+                        });
+                    })
+            })
+            //User Error
+            .error(function(error) {
+                deferred.reject({
+                    message: "Failed"
+                })
+            })
+
+        return deferred.promise
     }
 
     return userservices;
