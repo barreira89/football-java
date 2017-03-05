@@ -54,7 +54,7 @@ public class PickController {
 		String createdId = pickService.addOrUpdatePick(pick, null).getId();
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(locationBuilder(createdId));
+		responseHeaders.setLocation(RequestUtils.locationBuilder(createdId, "picks"));
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
 
@@ -66,7 +66,7 @@ public class PickController {
 		Picks resultingPick = pickService.addOrUpdatePick(pick, id);
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(locationBuilder(resultingPick.getId()));
+		responseHeaders.setLocation(RequestUtils.locationBuilder(resultingPick.getId(), "picks"));
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 
@@ -93,14 +93,6 @@ public class PickController {
 //		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 //
 //	}
-	
-	//Refactor to Rest Controller Utils
-	private URI locationBuilder(String id) {
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.pathSegment("leagues/{id}")
-				.buildAndExpand(id).toUri();
-		return location;
-	}
+
 	
 }

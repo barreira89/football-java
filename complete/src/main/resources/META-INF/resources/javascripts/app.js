@@ -38,7 +38,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'USER_ROLES', function($stat
   		controller: 'AdminController',
   		templateUrl: '/views/admin.html',
       data: {
-        authorizedRoles: [USER_ROLES.admin]
+        authorizedRoles: [USER_ROLES.all]
       }
   	})
   	.state('leagues', {

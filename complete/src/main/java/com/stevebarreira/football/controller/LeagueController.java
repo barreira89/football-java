@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stevebarreira.football.model.Leagues;
 import com.stevebarreira.football.repository.LeaguesRepository;
@@ -54,7 +53,7 @@ public class LeagueController {
 		String createdId = leagueService.createLeague(league).id;
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setLocation(locationBuilder(createdId));
+		responseHeaders.setLocation(RequestUtils.locationBuilder(createdId, "leagues"));
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.CREATED);
 
@@ -81,15 +80,6 @@ public class LeagueController {
 		
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 
-	}
-	
-	//Refactor to Rest Controller Utils
-	private URI locationBuilder(String id) {
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.pathSegment("leagues/{id}")
-				.buildAndExpand(id).toUri();
-		return location;
 	}
 	
 }

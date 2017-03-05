@@ -7,7 +7,7 @@
 			<div class="container row form-group">
 				<div class="text-center">
 					<label for="sel1">
-						<select class="form-control" ng-model="weekSchedule.selected" ng-options="option for option in weekList | orderBy: option" ng-change="mctrl.getCurrentWeekGames(weekSchedule.selected)" />
+						<select class="form-control" ng-model="weekSchedule.selected" ng-options="option for option in weekList | orderBy: parseInt(option)" ng-change="mctrl.getCurrentWeekGames(weekSchedule.selected)" />
 					</label>
 				</div>
 			</div>

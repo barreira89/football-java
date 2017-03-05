@@ -1,4 +1,4 @@
-package com.stevebarreira.football.application;
+package com.stevebarreira.football.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -94,14 +94,5 @@ public class UserController {
 ////		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 ////
 ////	}
-	
-	//Refactor to Rest Controller Utils
-	private URI locationBuilder(String id) {
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.pathSegment("leagues/{id}")
-				.buildAndExpand(id).toUri();
-		return location;
-	}
 	
 }

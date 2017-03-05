@@ -49,7 +49,7 @@ public class GameController {
 	}
 	
 	@RequestMapping("/games/weeklists")
-	public List<String> getGameList(){
+	public List<Integer> getGameList(){
 		return buildWeekList();
 	}
 	
@@ -65,10 +65,10 @@ public class GameController {
 
 	}
 	
-	private List<String> buildWeekList(){
-		List<String> outputList = new ArrayList<String>();
+	private List<Integer> buildWeekList(){
+		List<Integer> outputList = new ArrayList<Integer>();
 		for(int i = 1; i < 17; i++){
-			outputList.add(Integer.toString(i));
+			outputList.add(new Integer(i));
 		}
 		return outputList;
 	}
