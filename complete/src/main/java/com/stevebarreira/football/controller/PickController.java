@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.model.PicksDTO;
+import com.stevebarreira.football.model.UserWeekSummaryDTO;
 import com.stevebarreira.football.service.impl.PicksServiceImpl;
 
 //import hello.QGames;
@@ -40,7 +41,10 @@ public class PickController {
 		return pickService.getPicksById(id);
 	}
 	
-	//TODO: Fix resource end points to use expand
+	@RequestMapping(method = RequestMethod.GET, value = "/picks/summary",produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<UserWeekSummaryDTO> getUserSummary(@RequestParam String username) {	
+		return pickService.getUserSummary(username);
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/picks/with",produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<PicksDTO> getPicksWithGames(@RequestParam String username) {	// @RequestParam String expand

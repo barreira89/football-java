@@ -11,11 +11,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.model.PicksDTO;
+import com.stevebarreira.football.model.UserWeekSummaryDTO;
 import com.stevebarreira.football.repository.PicksRepositoryCustom;
 
 public class PicksRepositoryImpl implements PicksRepositoryCustom {
 	
 	private final MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private UserSummaryUtility userSummaryUtility;
 	
 	@Autowired
 	public PicksRepositoryImpl(MongoTemplate mongoTemplate){
@@ -24,6 +28,10 @@ public class PicksRepositoryImpl implements PicksRepositoryCustom {
 
 	@Override
 	public List<PicksDTO> findPicksByUsernameWithGameDetails(String username) {
+		return getPicksWithDetails(username);
+	}
+	
+	private List<PicksDTO> getPicksWithDetails (String username) {
 		LookupOperation lookupOperation = getLookUpOperation();
 		MatchOperation matchOperation = getMatchOperation(username);
 		return mongoTemplate.aggregate(Aggregation.newAggregation(
@@ -39,6 +47,12 @@ public class PicksRepositoryImpl implements PicksRepositoryCustom {
 	private MatchOperation getMatchOperation(String username){
 		Criteria pickCriteria = Criteria.where("username").is(username); 
 		return Aggregation.match(pickCriteria);
+	}
+
+	@Override
+	public List<UserWeekSummaryDTO> getUserSummary(String username) {
+		List<PicksDTO> userPicks = getPicksWithDetails(username);
+		return userSummaryUtility.createSummary(userPicks);
 	}
 	
 }

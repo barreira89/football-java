@@ -5,6 +5,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.model.PicksDTO;
+import com.stevebarreira.football.model.UserWeekSummaryDTO;
 
 public interface PicksService {
 
@@ -19,5 +20,7 @@ public interface PicksService {
 	public List<PicksDTO> findAllPicksWithGames(String username);
 	
 	public void updateListOfPicks(List<Picks> inputPicks);
+	
+	public List<UserWeekSummaryDTO> getUserSummary(String username);
 	
 }

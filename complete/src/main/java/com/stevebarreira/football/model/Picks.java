@@ -1,5 +1,6 @@
 package com.stevebarreira.football.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -34,11 +35,15 @@ public class Picks {
 	}
 
 	public String getGame() {
-		return game;
+		if(game != null){
+			return game.toString();
+		} else {
+			return null;
+		}
 	}
 
 	public void setGame(String game) {
-		this.game = game;
+		this.game = stringToObjectId(game);
 	}
 
 	public double getSeason() {
@@ -61,7 +66,7 @@ public class Picks {
 	String id;
 	String username;
 	int week;
-	String game;
+	ObjectId game;
 	double season;
 	String winner;
 	
@@ -71,8 +76,14 @@ public class Picks {
 		this.id = id;
 		this.username = username;
 		this.week = week;
-		this.game = game;
+		this.game = stringToObjectId(game);
 		this.season = season;
 		this.winner = winner;
 	}
+	
+	private ObjectId stringToObjectId (String inputId) {
+		return new ObjectId(inputId);
+	}
+	
+	
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@ComponentScan({"com.stevebarreira.football.service","com.stevebarreira.football.service.impl", "com.stevebarreira.football.controller", "com.stevebarreira.football.application"})
+@ComponentScan({"com.stevebarreira.football"})
 @EnableMongoRepositories("com.stevebarreira.football.repository")
 @SpringBootApplication
 public class Application {

@@ -9,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 import com.stevebarreira.football.model.Models;
 import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.model.PicksDTO;
+import com.stevebarreira.football.model.UserWeekSummaryDTO;
 import com.stevebarreira.football.repository.PicksRepository;
 import com.stevebarreira.football.service.PicksService;
 import com.stevebarreira.football.service.QueryBuilderService;
@@ -53,6 +54,11 @@ public class PicksServiceImpl implements PicksService {
 				p -> {
 					picksRepository.save(p);
 				});
+	}
+
+	@Override
+	public List<UserWeekSummaryDTO> getUserSummary(String username) {
+		return picksRepository.getUserSummary(username);
 	}
 
 }
