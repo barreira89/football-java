@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stevebarreira.football.model.LeagueSummary;
 import com.stevebarreira.football.model.Leagues;
+import com.stevebarreira.football.model.UserSummaryDTO;
 import com.stevebarreira.football.repository.LeaguesRepository;
 import com.stevebarreira.football.service.impl.LeagueServiceImpl;
 
@@ -81,5 +83,20 @@ public class LeagueController {
 		return new ResponseEntity<String>(responseHeaders, HttpStatus.OK);
 
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/leagues/{id}/summary")
+	public List<UserSummaryDTO> getLeagueSummary(@PathVariable String id) {
+		
+		return leagueService.getLeagueSummary(id);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/leagues/{id}/summaryweek")
+	public List<LeagueSummary> getLeagueSummaryByWeek(@PathVariable String id) {
+		
+		return leagueService.getLeagueSummaryByWeek(id);
+
+	}
+	
 	
 }

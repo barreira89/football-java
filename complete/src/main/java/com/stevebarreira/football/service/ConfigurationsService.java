@@ -11,4 +11,6 @@ public interface ConfigurationsService {
 	Configurations findById(String id);
 	
 	List<Logos> getAllLogos();
+	
+	void testRest();
 }

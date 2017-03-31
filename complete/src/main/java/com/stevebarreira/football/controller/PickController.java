@@ -1,6 +1,5 @@
 package com.stevebarreira.football.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stevebarreira.football.model.Picks;
 import com.stevebarreira.football.model.PicksDTO;
 import com.stevebarreira.football.model.UserWeekSummaryDTO;
-import com.stevebarreira.football.service.impl.PicksServiceImpl;
+import com.stevebarreira.football.service.PicksService;
 
 //import hello.QGames;
 
@@ -29,7 +27,7 @@ import com.stevebarreira.football.service.impl.PicksServiceImpl;
 public class PickController {
 	
 	@Autowired
-	private PicksServiceImpl pickService;
+	private PicksService pickService;
 		
 	@RequestMapping(method = RequestMethod.GET, value = "/picks",produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Picks> getAllPicksByCriteria(@RequestParam MultiValueMap<String, String> queryParameters) {		
@@ -42,8 +40,9 @@ public class PickController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/picks/summary",produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<UserWeekSummaryDTO> getUserSummary(@RequestParam String username) {	
-		return pickService.getUserSummary(username);
+	public List<UserWeekSummaryDTO> getUserSummary(@RequestParam(value = "username", required = false) String username, 
+												   @RequestParam(required=false) Integer season) {	
+		return pickService.getUserSummary(username, season);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/picks/with",produces=MediaType.APPLICATION_JSON_VALUE)

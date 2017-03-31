@@ -81,7 +81,7 @@ leagueServices.removeUserFromLeague = function (username, league){
  leagueServices.getLeagueSummary= function(leagueId){
    return $http({
      method: 'GET',
-     url: APIPREFIX + '/api/leagues/' + leagueId + '/summary'
+     url: APIPREFIX + '/leagues/' + leagueId + '/summaryweek'
    })
 
  }

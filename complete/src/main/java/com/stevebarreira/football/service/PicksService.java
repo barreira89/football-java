@@ -21,6 +21,6 @@ public interface PicksService {
 	
 	public void updateListOfPicks(List<Picks> inputPicks);
 	
-	public List<UserWeekSummaryDTO> getUserSummary(String username);
+	public List<UserWeekSummaryDTO> getUserSummary(String username, Integer season);
 	
 }

@@ -43,6 +43,13 @@ app.factory('users', ['$http', '$q', 'picks', 'leagues', function($http, $q, pic
         })
     }
 
+    userservices.getUserPickResultSummary = function(username) {
+        return $http({
+            method: 'GET',
+            url: APIPREFIX + '/picks/summary?' + username
+        })
+    }
+
     userservices.getUserModelNew = function(userId) {
         var deferred = $q.defer();
         var userModel = {}

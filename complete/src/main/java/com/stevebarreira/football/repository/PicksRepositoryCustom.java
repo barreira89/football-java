@@ -7,8 +7,8 @@ import com.stevebarreira.football.model.UserWeekSummaryDTO;
 
 public interface PicksRepositoryCustom {
 	
-	List<PicksDTO> findPicksByUsernameWithGameDetails(String username);
+	List<PicksDTO> findPicksByUsernameWithGameDetails(String username, Integer season);
 	
-	List<UserWeekSummaryDTO> getUserSummary (String username);
+	List<UserWeekSummaryDTO> getUserSummary (String username, Integer season);
 
 }

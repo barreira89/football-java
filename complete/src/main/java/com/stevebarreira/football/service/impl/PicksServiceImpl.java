@@ -23,6 +23,9 @@ public class PicksServiceImpl implements PicksService {
 	@Autowired
 	QueryBuilderService queryService;
 	
+	@Autowired
+	UserSummaryUtility userSummaryUtility;
+	
 	@Override
 	public List<Picks> findAllPicks() {
 		return (List<Picks>) picksRepository.findAll();
@@ -45,7 +48,7 @@ public class PicksServiceImpl implements PicksService {
 
 	@Override
 	public List<PicksDTO> findAllPicksWithGames(String username) {
-		return picksRepository.findPicksByUsernameWithGameDetails(username);
+		return picksRepository.findPicksByUsernameWithGameDetails(username, null);
 	}
 
 	@Override
@@ -57,8 +60,9 @@ public class PicksServiceImpl implements PicksService {
 	}
 
 	@Override
-	public List<UserWeekSummaryDTO> getUserSummary(String username) {
-		return picksRepository.getUserSummary(username);
+	public List<UserWeekSummaryDTO> getUserSummary(String username, Integer season) {
+		List<PicksDTO> userPicks = picksRepository.findPicksByUsernameWithGameDetails(username, season);
+		return userSummaryUtility.createSummary(userPicks, username);
 	}
 
 }

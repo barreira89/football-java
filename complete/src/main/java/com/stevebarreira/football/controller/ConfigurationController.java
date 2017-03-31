@@ -30,5 +30,10 @@ public class ConfigurationController {
 	public List<Logos> getAllLogos() {
 		return configService.getAllLogos();
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/rest", produces=MediaType.APPLICATION_JSON_VALUE)
+	public void restTest() {
+		configService.testRest();
+	}
 
 }

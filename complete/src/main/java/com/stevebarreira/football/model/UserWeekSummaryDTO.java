@@ -25,11 +25,30 @@ public class UserWeekSummaryDTO {
 	public void setLosses(int losses) {
 		this.losses = losses;
 	}
+	
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	private String username;
 	private int weekNumber;
 	private int wins;
 	private int losses;
+	private int season;
 	
+	public int getSeason() {
+		return season;
+	}
+
+	public void setSeason(int season) {
+		this.season = season;
+	}
+
 	public UserWeekSummaryDTO(){
 		this.wins = 0;
 		this.losses = 0;
